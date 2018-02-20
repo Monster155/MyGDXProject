@@ -34,21 +34,21 @@ public class Assets {
         Array<AtlasRegion> walkingLeftFrames = new Array<AtlasRegion>();
         walkingLeftFrames.add(moveLeft);
         walkingLeftFrames.add(left);
-        walkingLeftAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingLeftFrames, PlayMode.LOOP);
+        walkingLeftAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingLeftFrames, PlayMode.LOOP_PINGPONG);
 
         Array<AtlasRegion> walkingRightFrames = new Array<AtlasRegion>();
         walkingRightFrames.add(moveRight);
         walkingRightFrames.add(right);
-        walkingRightAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingRightFrames, PlayMode.LOOP);
+        walkingRightAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingRightFrames, PlayMode.LOOP_PINGPONG);
 
         Array<AtlasRegion> walkingUpFrames = new Array<AtlasRegion>();
         walkingUpFrames.add(moveUp);
         walkingUpFrames.add(up);
-        walkingUpAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingUpFrames, PlayMode.LOOP);
+        walkingUpAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingUpFrames, PlayMode.LOOP_PINGPONG);
 
         Array<AtlasRegion> walkingDownFrames = new Array<AtlasRegion>();
         walkingDownFrames.add(moveDown);
         walkingDownFrames.add(down);
-        walkingDownAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingDownFrames, PlayMode.LOOP);
+        walkingDownAnimation = new Animation(Constants.WALK_LOOP_DURATION, walkingDownFrames, PlayMode.LOOP_PINGPONG);
     }
 }

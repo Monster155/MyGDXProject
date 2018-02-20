@@ -31,7 +31,7 @@ public class Character {
     }
 
     public void update(float delta){
-        walkStartTime = TimeUtils.nanoTime();
+        if(walkState == WalkState.STAND)walkStartTime = TimeUtils.nanoTime();
         move(delta);
     }
 
@@ -97,6 +97,7 @@ public class Character {
 
     public void anim(){
         float walkTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
+        Gdx.app.log("Time", (walkTimeSeconds*100000)+"");
         if(walkState == WalkState.LEFT) {
             region = (TextureRegion) assets.walkingLeftAnimation.getKeyFrame(walkTimeSeconds);
             lastPosition = 4;

@@ -1,0 +1,62 @@
+
+superBoy.png
+size: 256,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Back
+  rotate: false
+  xy: 68, 8
+  size: 28, 44
+  orig: 28, 44
+  offset: 0, 0
+  index: -1
+Back_Move
+  rotate: false
+  xy: 34, 6
+  size: 32, 46
+  orig: 32, 46
+  offset: 0, 0
+  index: -1
+Front
+  rotate: false
+  xy: 98, 8
+  size: 28, 44
+  orig: 28, 44
+  offset: 0, 0
+  index: -1
+Front_Move
+  rotate: false
+  xy: 2, 2
+  size: 30, 50
+  orig: 30, 50
+  offset: 0, 0
+  index: -1
+Left
+  rotate: false
+  xy: 128, 8
+  size: 28, 44
+  orig: 28, 44
+  offset: 0, 0
+  index: -1
+Left_Move
+  rotate: false
+  xy: 158, 8
+  size: 28, 44
+  orig: 28, 44
+  offset: 0, 0
+  index: -1
+Right
+  rotate: false
+  xy: 188, 8
+  size: 28, 44
+  orig: 28, 44
+  offset: 0, 0
+  index: -1
+Right_Move
+  rotate: false
+  xy: 218, 8
+  size: 28, 44
+  orig: 28, 44
+  offset: 0, 0
+  index: -1

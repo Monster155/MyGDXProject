@@ -1,19 +1,22 @@
 package ru.itlab;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 public class GameScreen implements Screen {
 
     Level level;
     SpriteBatch batch;
+    StartScreen startScreen;
+    MainActivity mainActivity;
 
     @Override
     public void show() {
+        startScreen = new StartScreen();
+        mainActivity = new MainActivity();
         level = new Level();
         batch = new SpriteBatch();
         music();
@@ -23,6 +26,8 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         level.update(delta);
         level.render(batch);
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+            mainActivity.setScreen(startScreen);
     }
 
     @Override

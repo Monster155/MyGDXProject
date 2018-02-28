@@ -1,7 +1,11 @@
 package ru.itlab;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 public class GameScreen implements Screen {
 
@@ -12,6 +16,7 @@ public class GameScreen implements Screen {
     public void show() {
         level = new Level();
         batch = new SpriteBatch();
+        music();
     }
 
     @Override
@@ -22,7 +27,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
@@ -44,6 +48,10 @@ public class GameScreen implements Screen {
     public void dispose() {
         batch.dispose();
         level.c.assetManager.dispose();
-
+    }
+    public void music(){
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("party.mp3"));
+        music.setLooping(true);
+        music.play();
     }
 }

@@ -10,17 +10,21 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import ru.itlab.Enums.WalkState;
+
+import static ru.itlab.Enums.WalkState.*;
+import static ru.itlab.Enums.WalkState.STAND;
+
 public class Character {
 
-    public int lives;
-    public Vector2 position = new Vector2(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);;
+    int lives;
+    Vector2 position = new Vector2(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);;
     TextureRegion region;
     TextureAtlas atlas;
-    public AssetManager assetManager;
+    AssetManager assetManager;
     long walkStartTime;
     Assets assets;
-    int lastPosition = 2;
-    WalkState walkState;
+    WalkState walkState, lastWalkState = WalkState.DOWN;
 
     public Character(){
         assetManager = new AssetManager();
@@ -31,7 +35,7 @@ public class Character {
     }
 
     public void update(float delta){
-        if(walkState == WalkState.STAND)walkStartTime = TimeUtils.nanoTime();
+        if(walkState == STAND)walkStartTime = TimeUtils.nanoTime();
         move(delta);
     }
 
@@ -43,84 +47,115 @@ public class Character {
         boolean down = Gdx.input.isKeyPressed(Input.Keys.S);
         if (left && down && !up && !right) {
             //moving left and down
-            walkState = WalkState.LEFT;
+            walkState = LEFTandDOWN;
             if(!(position.x-delta * Constants.C_SPEED / Math.sqrt(2) < 0))
                 position.x -= delta * Constants.C_SPEED / Math.sqrt(2);
             if(!(position.y-delta * Constants.C_SPEED / Math.sqrt(2) < 0))
                 position.y -= delta * Constants.C_SPEED / Math.sqrt(2);
         } else if (down && !left && !up && !right) {
             // moving down
-            walkState = WalkState.DOWN;
+            walkState = DOWN;
             if(!(position.y-delta * Constants.C_SPEED < 0))
                 position.y -= delta * Constants.C_SPEED;
         } else if (right && down && !up && !left) {
             // moving right and down
-            walkState = WalkState.RIGHT;
+            walkState = RIGHTandDOWN;
             if(!(position.x+Constants.C_SIZE.x+delta * Constants.C_SPEED / Math.sqrt(2) > w))
                 position.x += delta * Constants.C_SPEED / Math.sqrt(2);
             if(!(position.y-delta * Constants.C_SPEED / Math.sqrt(2) < 0))
                 position.y -= delta * Constants.C_SPEED / Math.sqrt(2);
         } else if (left && !right && !up && !down) {
             //moving left
-            walkState = WalkState.LEFT;
+            walkState = LEFT;
             if(!(position.x-delta * Constants.C_SPEED < 0))
                 position.x -= delta * Constants.C_SPEED;
         } else if (right && !left && !up && !down) {
             // moving right
-            walkState = WalkState.RIGHT;
+            walkState = RIGHT;
             if(!(position.x+Constants.C_SIZE.x+delta * Constants.C_SPEED > w))
                 position.x += delta * Constants.C_SPEED;
         } else if (left && up && !right && !down) {
             // moving left and up
-            walkState = WalkState.LEFT;
+            walkState = LEFTandUP;
             if (!(position.x - delta * Constants.C_SPEED / Math.sqrt(2) < 0))
                 position.x -= delta * Constants.C_SPEED / Math.sqrt(2);
             if(!(position.y + Constants.C_SIZE.y + delta * Constants.C_SPEED / Math.sqrt(2) > h))
                 position.y += delta * Constants.C_SPEED / Math.sqrt(2);
         } else if (up && !left && !right && !down) {
             // moving up
-            walkState = WalkState.UP;
+            walkState = UP;
             if(!(position.y+Constants.C_SIZE.y+delta * Constants.C_SPEED > h))
                 position.y += delta * Constants.C_SPEED;
         } else if (right && up && !left && !down) {
             //moving right and up
-            walkState = WalkState.RIGHT;
+            walkState = RIGHTandUP;
             if(!(position.x+Constants.C_SIZE.x+delta * Constants.C_SPEED / Math.sqrt(2) > w))
                 position.x += delta * Constants.C_SPEED / Math.sqrt(2);
             if(!(position.y+Constants.C_SIZE.y+delta * Constants.C_SPEED / Math.sqrt(2) > h))
                 position.y += delta * Constants.C_SPEED / Math.sqrt(2);
         } else {
             // standing
-            walkState = WalkState.STAND;
+            walkState = STAND;
         }
     }
 
-    public void anim(){
+    public void anim() {
         float walkTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
-        Gdx.app.log("Time", (walkTimeSeconds*100000)+"");
-        if(walkState == WalkState.LEFT) {
-            region = (TextureRegion) assets.walkingLeftAnimation.getKeyFrame(walkTimeSeconds);
-            lastPosition = 4;
+        if(walkState != STAND)lastWalkState = walkState;
+        switch (walkState) {
+            case LEFT:
+                region = (TextureRegion) assets.walkingLeftAnimation.getKeyFrame(walkTimeSeconds);
+                break;
+            case RIGHT:
+                region = (TextureRegion) assets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
+                break;
+            case RIGHTandDOWN:
+                region = (TextureRegion) assets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
+                break;
+            case RIGHTandUP:
+                region = (TextureRegion) assets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
+                break;
+            case LEFTandUP:
+                region = (TextureRegion) assets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
+                break;
+            case LEFTandDOWN:
+                region = (TextureRegion) assets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
+                break;
+            case UP:
+                region = (TextureRegion) assets.walkingUpAnimation.getKeyFrame(walkTimeSeconds);
+                break;
+            case DOWN:
+                region = (TextureRegion) assets.walkingDownAnimation.getKeyFrame(walkTimeSeconds);
+                break;
+            case STAND:
+                switch (lastWalkState) {
+                    case RIGHT:
+                        region = assets.right;
+                        break;
+                    case RIGHTandDOWN:
+                        region = assets.right;
+                        break;
+                    case RIGHTandUP:
+                        region = assets.right;
+                        break;
+                    case LEFT:
+                        region = assets.left;
+                        break;
+                    case LEFTandDOWN:
+                        region = assets.left;
+                        break;
+                    case LEFTandUP:
+                        region = assets.left;
+                        break;
+                    case UP:
+                        region = assets.up;
+                        break;
+                    case DOWN:
+                        region = assets.down;
+                        break;
+                }
+                break;
         }
-        if(walkState == WalkState.RIGHT) {
-            region = (TextureRegion) assets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
-            lastPosition = 6;
-        }
-        if(walkState == WalkState.UP) {
-            region = (TextureRegion) assets.walkingUpAnimation.getKeyFrame(walkTimeSeconds);
-            lastPosition = 8;
-        }
-        if(walkState == WalkState.DOWN) {
-            region = (TextureRegion) assets.walkingDownAnimation.getKeyFrame(walkTimeSeconds);
-            lastPosition = 2;
-        }
-        if(walkState == WalkState.STAND)
-            switch(lastPosition){
-                case 4:region = assets.left;break;
-                case 6:region = assets.right;break;
-                case 8:region = assets.up;break;
-                case 2:region = assets.down;break;
-            }
     }
 
     public void render(SpriteBatch batch) {
@@ -146,7 +181,7 @@ public class Character {
 
     public void damaged(int damage) {
         lives -= damage;
-        if (lives < 0) dead();
+        if (lives < 1) dead();
     }
 
     public void heal(int heal) {
@@ -158,11 +193,11 @@ public class Character {
         lives = 0;
     }
 
-    enum WalkState {
-        LEFT,
-        RIGHT,
-        DOWN,
-        UP,
-        STAND
+    public Vector2 getPosition(){
+        return position;
+    }
+
+    public WalkState getWalkState(){
+        return lastWalkState;
     }
 }

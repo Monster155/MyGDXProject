@@ -7,6 +7,7 @@ import ru.itlab.MainActivity;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.fullscreen = true;
 		new LwjglApplication(new MainActivity(), config);
 	}
 }

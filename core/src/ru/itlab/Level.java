@@ -2,7 +2,9 @@ package ru.itlab;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -14,12 +16,17 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class Level {
 
     Character c;
+    BitmapFont font;
     long shootStartTime = 0;
     private Array<Bullet> bullets = new Array<Bullet>();
-    private Array<Enemy> enes = new Array<Enemy>();
+    public Array<Enemy> enes = new Array<Enemy>();
+    //public static final String FONT_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
 
     public Level() {
         c = new Character();
+
+        font = new BitmapFont();
+        font.setColor(1f, 0f, 0f, 1f);
 
         enes.add(new Enemy(Gdx.graphics.getWidth()/2, 0));
         enes.add(new Enemy(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()));
@@ -58,6 +65,8 @@ public class Level {
             enemy.render(batch);
         for (Bullet bullet : bullets)
             bullet.render(batch);
+        if(enes.size < 1)
+            font.draw(batch, "You WIN!", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         batch.end();
     }
 }

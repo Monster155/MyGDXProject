@@ -25,5 +25,5 @@ public class Constants {
     public static final int BULLET_DAMAGE = 1;
     public static final float ENEMY_SPEED = 50f;
     public static final int ENEMY_HEALTH = 5;
-    public static final float SHOOT_RATE = 12; // bullets for 1 minute
+    public static final float SHOOT_RATE = 600; // bullets for 1 minute
 }
